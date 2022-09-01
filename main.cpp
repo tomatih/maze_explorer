@@ -11,7 +11,9 @@ private:
 	Vector3 camera_postion_offset;
 
 	void update_position(){
+		// init travel vector
 		Vector3 travel_distance = {0.0f, 0.0f, 0.0f};
+		// get player input
 		if(IsKeyDown(KEY_W)){
 			travel_distance.z += 1.0f;
 		}
@@ -24,8 +26,11 @@ private:
 		if(IsKeyDown(KEY_A)){
 			travel_distance.x += 1.0f;
 		}
+		// account for diagonal movement
 		travel_distance = Vector3Normalize(travel_distance);
+		// scale by speed (framerate independent)
 		travel_distance = Vector3Scale(travel_distance, speed*GetFrameTime());
+		// actually move the player
 		position = Vector3Add(position, travel_distance);
 	}
 
