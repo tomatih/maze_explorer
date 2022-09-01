@@ -3,12 +3,12 @@
 
 struct Player{
 public:
-	Vector3 position;
-	Quaternion rotation;
+	Vector3 position; // player position
+	Quaternion rotation; // player rotation
 private:
-	float speed;
-	Camera camera;
-	Vector3 camera_postion_offset;
+	float speed; // movement speed
+	Camera camera; // 3D camera object
+	Vector3 camera_postion_offset; // basically player height
 
 	void update_position(){
 		// init travel vector
@@ -41,8 +41,10 @@ private:
 
 public:
 	Player(){
+		// basic init
 		position = {0.0f, 0.0f,0.0f};
 		speed = 5.0f;
+		// camera init
 		camera_postion_offset = {0.0f,1.0f,0.0f};
 		camera = {
 			.position = Vector3Add(position, camera_postion_offset),
@@ -54,6 +56,7 @@ public:
 		SetCameraMode(camera, CAMERA_CUSTOM);
 	}
 
+	// camera draw API forward
 	void beginDrawing3D(){
 		BeginMode3D(camera);
 	}
