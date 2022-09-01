@@ -9,6 +9,31 @@ private:
 	float speed;
 	Camera camera;
 	Vector3 camera_postion_offset;
+
+	void update_position(){
+		Vector3 travel_distance = {0.0f, 0.0f, 0.0f};
+		if(IsKeyDown(KEY_W)){
+			travel_distance.z += 1.0f;
+		}
+		if(IsKeyDown(KEY_S)){
+			travel_distance.z -= 1.0f;
+		}
+		if(IsKeyDown(KEY_D)){
+			travel_distance.x -= 1.0f;
+		}
+		if(IsKeyDown(KEY_A)){
+			travel_distance.x += 1.0f;
+		}
+		travel_distance = Vector3Normalize(travel_distance);
+		travel_distance = Vector3Scale(travel_distance, speed*GetFrameTime());
+		position = Vector3Add(position, travel_distance);
+	}
+
+	void update_camera(){
+		camera.position = Vector3Add(position, camera_postion_offset);
+		camera.target = Vector3Add(camera.position, {0.0f,0.0f,1.0f});
+	}
+
 public:
 	Player(){
 		position = {0.0f, 0.0f,0.0f};
@@ -29,6 +54,8 @@ public:
 	}
 
 	void update(){
+		update_position();
+		update_camera();
 	}
 };
 
