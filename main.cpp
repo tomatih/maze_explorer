@@ -39,26 +39,21 @@ private:
 	}
 
 	void update_orientation(){
-		/*if(IsKeyDown(KEY_UP)){
-			front.z += 1.0f;
-		}
-		if(IsKeyDown(KEY_DOWN)){
-			front.z -= 1.0f;
-		}
-		if(IsKeyDown(KEY_RIGHT)){
-			front.x -= 1.0f;
-		}
-		if(IsKeyDown(KEY_LEFT)){
-			front.x += 1.0f;
-		}*/
+		float angle = 0.0f;
 		if(IsKeyPressed(KEY_RIGHT)){
-			std::cout << "before:" << front.x << " " << front.z << std::endl;
-			float x = front.x * cos(PI/2) - front.z*sin(PI/2);
-			float z = front.x * sin(PI/2) - front.z*cos(PI/2);
-			front.x = x;
-			front.z = z;
-			std::cout << "after:" << front.x << " " << front.z << std::endl;
+			angle = PI/2;
 		}
+		if(IsKeyPressed(KEY_LEFT)){
+			angle = -PI/2;
+		}
+		if(!angle){
+			return;
+		}
+		front = {
+			front.x * cos(angle) - front.z*sin(angle),
+			0.0f,
+			front.x * sin(angle) - front.z*cos(angle)
+		};
 	}
 
 	void update_camera(){
