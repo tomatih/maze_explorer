@@ -7,12 +7,13 @@
 struct Player{
 public:
 	Vector3 position; // player position
-	Vector3 front;
+	Quaternion orientation;
 	Camera camera;
 private:
 	float speed; // movement speed
 	//Camera camera; // 3D camera object
 	Vector3 camera_postion_offset; // basically player height
+	Vector3 camera_target_offset; // where player is lookign
 
 	void update_position(){
 		// init travel vector
@@ -30,6 +31,8 @@ private:
 		if(IsKeyDown(KEY_A)){
 			travel_distance.x += 1.0f;
 		}
+		// rotate to move where looking
+		travel_distance = Vector3RotateByQuaternion(travel_distance, orientation);
 		// account for diagonal movement
 		travel_distance = Vector3Normalize(travel_distance);
 		// scale by speed (framerate independent)
@@ -39,26 +42,20 @@ private:
 	}
 
 	void update_orientation(){
-		float angle = 0.0f;
+		Quaternion new_rotation = QuaternionIdentity();
 		if(IsKeyPressed(KEY_RIGHT)){
-			angle = PI/2;
+			new_rotation = QuaternionFromEuler(0.0f, -PI/2, 0.0f);
 		}
 		if(IsKeyPressed(KEY_LEFT)){
-			angle = -PI/2;
+			new_rotation = QuaternionFromEuler(0.0f, PI/2, 0.0f);
 		}
-		if(!angle){
-			return;
-		}
-		front = {
-			front.x * cos(angle) - front.z*sin(angle),
-			0.0f,
-			front.x * sin(angle) - front.z*cos(angle)
-		};
+		orientation = QuaternionMultiply(new_rotation, orientation);
+		orientation = QuaternionNormalize(orientation);
 	}
 
 	void update_camera(){
 		camera.position = Vector3Add(position, camera_postion_offset);
-		camera.target = Vector3Add(camera.position, front);
+		camera.target = Vector3Add(camera.position,Vector3RotateByQuaternion(camera_target_offset, orientation));
 	}
 
 public:
@@ -66,12 +63,13 @@ public:
 		// basic init
 		position = {0.0f, 0.0f,0.0f};
 		speed = 5.0f;
-		front = {0.0f, 0.0f, 1.0f};
+		orientation = QuaternionIdentity();
 		// camera init
 		camera_postion_offset = {0.0f,1.0f,0.0f};
+		camera_target_offset = {0.0f, 0.0f, 1.0f};
 		camera = {
 			.position = Vector3Add(position, camera_postion_offset),
-			.target = Vector3Add(Vector3Add(position, camera_postion_offset), front),
+			.target = Vector3Add(Vector3Add(position, camera_postion_offset), camera_target_offset),
 			.up = {0.0f, 1.0f, 0.0f},
 			.fovy = 60.0f,
 			.projection = CAMERA_PERSPECTIVE,
