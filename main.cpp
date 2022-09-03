@@ -11,6 +11,7 @@ public:
 	Camera camera;
 private:
 	float speed; // movement speed
+	float rotation_speed;
 	//Camera camera; // 3D camera object
 	Vector3 camera_postion_offset; // basically player height
 	Vector3 camera_target_offset; // where player is lookign
@@ -33,6 +34,8 @@ private:
 		}
 		// rotate to move where looking
 		travel_distance = Vector3RotateByQuaternion(travel_distance, orientation);
+		// ignore vertical componet of orientaion (no flying)
+		travel_distance = {travel_distance.x, 0.0f, travel_distance.z};
 		// account for diagonal movement
 		travel_distance = Vector3Normalize(travel_distance);
 		// scale by speed (framerate independent)
@@ -43,11 +46,17 @@ private:
 
 	void update_orientation(){
 		Quaternion new_rotation = QuaternionIdentity();
-		if(IsKeyPressed(KEY_RIGHT)){
-			new_rotation = QuaternionFromEuler(0.0f, -PI/2, 0.0f);
+		if(IsKeyDown(KEY_RIGHT)){
+			new_rotation = QuaternionFromEuler(0.0f, -rotation_speed*GetFrameTime(), 0.0f);
 		}
-		if(IsKeyPressed(KEY_LEFT)){
-			new_rotation = QuaternionFromEuler(0.0f, PI/2, 0.0f);
+		if(IsKeyDown(KEY_LEFT)){
+			new_rotation = QuaternionFromEuler(0.0f, rotation_speed*GetFrameTime(), 0.0f);
+		}
+		if(IsKeyDown(KEY_UP)){
+			new_rotation = QuaternionFromEuler(-rotation_speed*GetFrameTime(), 0.0f, 0.0f);
+		}
+		if(IsKeyDown(KEY_DOWN)){
+			new_rotation = QuaternionFromEuler(rotation_speed*GetFrameTime(), 0.0f, 0.0f);
 		}
 		orientation = QuaternionMultiply(new_rotation, orientation);
 		orientation = QuaternionNormalize(orientation);
@@ -64,6 +73,7 @@ public:
 		position = {0.0f, 0.0f,0.0f};
 		speed = 5.0f;
 		orientation = QuaternionIdentity();
+		rotation_speed = PI;
 		// camera init
 		camera_postion_offset = {0.0f,1.0f,0.0f};
 		camera_target_offset = {0.0f, 0.0f, 1.0f};
