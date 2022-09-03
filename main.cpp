@@ -125,7 +125,8 @@ int main(int argc, char const *argv[])
 		BeginDrawing();
 			ClearBackground(RAYWHITE); // clean screen
 			player.beginDrawing3D();
-				DrawPlane({0.0f, 0.0f, 0.0f}, {32.0f, 32.0f}, LIGHTGRAY);
+				DrawPlane({0.0f, 0.0f, -0.09f}, {32.0f, 32.0f}, WHITE);
+				DrawGrid(16, 1);
 				DrawCube({1.0f,0.5f,7.0f}, 1, 1, 1, RED);
 				DrawCubeWires({1.0f,0.5f,7.0f}, 1, 1, 1, BLACK);
 			EndMode3D();
