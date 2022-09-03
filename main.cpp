@@ -45,21 +45,21 @@ private:
 	}
 
 	void update_orientation(){
+		// start assuming no rotation
 		Quaternion new_rotation = QuaternionIdentity();
-		if(IsKeyDown(KEY_RIGHT)){
-			new_rotation = QuaternionFromEuler(0.0f, -rotation_speed*GetFrameTime(), 0.0f);
+		// crate a rotaion quatrnion based on imput
+		Vector2 mouse_delta = GetMouseDelta();
+		// ignore the first frame
+		if(Vector2Equals(mouse_delta, {(float)GetScreenWidth()/2, (float)GetScreenHeight()/2})){
+			return;
 		}
-		if(IsKeyDown(KEY_LEFT)){
-			new_rotation = QuaternionFromEuler(0.0f, rotation_speed*GetFrameTime(), 0.0f);
-		}
-		if(IsKeyDown(KEY_UP)){
-			new_rotation = QuaternionFromEuler(-rotation_speed*GetFrameTime(), 0.0f, 0.0f);
-		}
-		if(IsKeyDown(KEY_DOWN)){
-			new_rotation = QuaternionFromEuler(rotation_speed*GetFrameTime(), 0.0f, 0.0f);
-		}
+		new_rotation = QuaternionFromEuler(rotation_speed*mouse_delta.y, -rotation_speed*mouse_delta.x, 0.0f);
+		
+		// add desired rotation to current orientaion
 		orientation = QuaternionMultiply(new_rotation, orientation);
 		orientation = QuaternionNormalize(orientation);
+		//reset mouse position
+		SetMousePosition(GetScreenWidth()/2, GetScreenHeight()/2);
 	}
 
 	void update_camera(){
@@ -73,7 +73,7 @@ public:
 		position = {0.0f, 0.0f,0.0f};
 		speed = 5.0f;
 		orientation = QuaternionIdentity();
-		rotation_speed = PI;
+		rotation_speed = PI/1000;
 		// camera init
 		camera_postion_offset = {0.0f,1.0f,0.0f};
 		camera_target_offset = {0.0f, 0.0f, 1.0f};
@@ -112,6 +112,8 @@ int main(int argc, char const *argv[])
 
 	// Initial setup
 	InitWindow(screenWidth, screenHeigth, "Maze Explorer");
+	HideCursor();
+	SetMousePosition(GetScreenWidth()/2, GetScreenHeight()/2);
 	SetTargetFPS(60);
 
 
