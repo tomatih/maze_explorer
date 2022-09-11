@@ -7,10 +7,10 @@
 struct Player{
 public:
 	Vector3 position; // player position
-	Quaternion orientation;
 	Camera camera;
 private:
 	float speed; // movement speed
+	float rotation; // player world orientation
 	float rotation_speed;
 	//Camera camera; // 3D camera object
 	Vector3 camera_postion_offset; // basically player height
@@ -33,9 +33,7 @@ private:
 			travel_distance.x += 1.0f;
 		}
 		// rotate to move where looking
-		travel_distance = Vector3RotateByQuaternion(travel_distance, orientation);
-		// ignore vertical componet of orientaion (no flying)
-		travel_distance = {travel_distance.x, 0.0f, travel_distance.z};
+		travel_distance = Vector3RotateByAxisAngle(travel_distance, camera.up, rotation);
 		// account for diagonal movement
 		travel_distance = Vector3Normalize(travel_distance);
 		// scale by speed (framerate independent)
@@ -45,26 +43,26 @@ private:
 	}
 
 	void update_orientation(){
-		// start assuming no rotation
-		Quaternion new_rotation = QuaternionIdentity();
-		// crate a rotaion quatrnion based on imput
-		Vector2 mouse_delta = GetMouseDelta();
-		// ignore the first frame
-		if(Vector2Equals(mouse_delta, {(float)GetScreenWidth()/2, (float)GetScreenHeight()/2})){
-			return;
+		// user input
+		if(IsKeyDown(KEY_RIGHT)){
+			rotation -= GetFrameTime()*rotation_speed;
 		}
-		new_rotation = QuaternionFromEuler(rotation_speed*mouse_delta.y, -rotation_speed*mouse_delta.x, 0.0f);
+		if(IsKeyDown(KEY_LEFT)){
+			rotation += GetFrameTime()*rotation_speed;
+		}
 		
-		// add desired rotation to current orientaion
-		orientation = QuaternionMultiply(new_rotation, orientation);
-		orientation = QuaternionNormalize(orientation);
-		//reset mouse position
-		SetMousePosition(GetScreenWidth()/2, GetScreenHeight()/2);
+		// angle security
+		if(rotation > 2*PI){
+			rotation -= 2*PI;
+		}
+		else if(rotation < 0){
+			rotation += 2*PI;
+		}
 	}
 
 	void update_camera(){
 		camera.position = Vector3Add(position, camera_postion_offset);
-		camera.target = Vector3Add(camera.position,Vector3RotateByQuaternion(camera_target_offset, orientation));
+		camera.target = Vector3Add(camera.position,Vector3RotateByAxisAngle(camera_target_offset, camera.up, rotation));
 	}
 
 public:
@@ -72,8 +70,8 @@ public:
 		// basic init
 		position = {0.0f, 0.0f,0.0f};
 		speed = 5.0f;
-		orientation = QuaternionIdentity();
-		rotation_speed = PI/1000;
+		rotation = PI/2;
+		rotation_speed = 1;
 		// camera init
 		camera_postion_offset = {0.0f,1.0f,0.0f};
 		camera_target_offset = {0.0f, 0.0f, 1.0f};
@@ -112,8 +110,6 @@ int main(int argc, char const *argv[])
 
 	// Initial setup
 	InitWindow(screenWidth, screenHeigth, "Maze Explorer");
-	HideCursor();
-	SetMousePosition(GetScreenWidth()/2, GetScreenHeight()/2);
 	SetTargetFPS(60);
 
 
