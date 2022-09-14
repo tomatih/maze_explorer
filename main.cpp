@@ -11,7 +11,8 @@ public:
 private:
 	float speed; // movement speed
 	float rotation; // player world orientation
-	float rotation_speed;
+	float head_rotation; // up/down head rotation
+	float rotation_speed; // head rotation speed
 	//Camera camera; // 3D camera object
 	Vector3 camera_postion_offset; // basically player height
 	Vector3 camera_target_offset; // where player is lookign
@@ -50,6 +51,12 @@ private:
 		if(IsKeyDown(KEY_LEFT)){
 			rotation += GetFrameTime()*rotation_speed;
 		}
+		if(IsKeyDown(KEY_DOWN)){
+			head_rotation -= GetFrameTime()*rotation_speed;
+		}
+		if(IsKeyDown(KEY_UP)){
+			head_rotation += GetFrameTime()*rotation_speed;
+		}
 		
 		// angle security
 		if(rotation > 2*PI){
@@ -58,11 +65,26 @@ private:
 		else if(rotation < 0){
 			rotation += 2*PI;
 		}
+
+		// head angle limitation
+		if(head_rotation > PI/4){
+			head_rotation = PI/4;
+		}
+		else if(head_rotation < -PI/4){
+			head_rotation = -PI/4;
+		}
+
 	}
 
 	void update_camera(){
+		// move with player
 		camera.position = Vector3Add(position, camera_postion_offset);
-		camera.target = Vector3Add(camera.position,Vector3RotateByAxisAngle(camera_target_offset, camera.up, rotation));
+		// horizontal rotation
+		auto tmp_target = Vector3RotateByAxisAngle(camera_target_offset, camera.up, rotation);
+		// vertical rotation
+		tmp_target = Vector3RotateByAxisAngle(tmp_target, Vector3Perpendicular(tmp_target), head_rotation);
+		/// to player space
+		camera.target = Vector3Add(camera.position, tmp_target);
 	}
 
 public:
@@ -71,7 +93,8 @@ public:
 		position = {0.0f, 0.0f,0.0f};
 		speed = 5.0f;
 		rotation = PI/2;
-		rotation_speed = 1;
+		head_rotation = 0.0f;
+		rotation_speed = 1.0f;
 		// camera init
 		camera_postion_offset = {0.0f,1.0f,0.0f};
 		camera_target_offset = {0.0f, 0.0f, 1.0f};
