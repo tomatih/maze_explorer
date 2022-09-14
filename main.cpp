@@ -3,6 +3,7 @@
 #include <raymath.h>
 #include <iostream>
 #include <math.h>
+#include <vector>
 
 struct Player{
 public:
@@ -120,6 +121,62 @@ public:
 	}
 };
 
+struct Maze{
+private:
+	float maze_scale;
+	std::vector<std::vector<bool>> map;
+	// caches
+	Vector2 floor_size;
+	Vector3 cube_size;
+	Vector3 wire_size;
+
+
+public:
+	Maze(){
+		maze_scale = 5;
+		map = {
+			{1, 1, 1, 1, 0, 1, 1, 1, 1},
+			{1, 1, 1, 1, 0, 1, 1, 1, 1},
+			{1, 1, 1, 0, 0, 1, 0, 0, 1},
+			{1, 0, 0, 0, 1, 1, 0, 1, 1},
+			{1, 0, 1, 0, 0, 0, 0, 0, 1},
+			{1, 1, 0, 0, 1, 1, 1, 0, 1},
+			{1, 1, 0, 1, 1, 0, 0, 0, 1},
+			{1, 0, 0, 1, 0, 0, 1, 1, 1},
+			{1, 1, 1, 1, 1, 1, 1, 1, 1}
+		};
+		// cache
+		floor_size = {(float)map.size(), (float)map[0].size()};
+		floor_size = Vector2Scale(floor_size, maze_scale);
+		cube_size = Vector3Scale({1.0f, 1.0f, 1.0f}, maze_scale-0.01); // ofset so wires visible
+		wire_size = Vector3Scale({1.0f, 1.0f, 1.0f}, maze_scale);
+
+	};
+
+	void Draw(){
+		// Draw floor
+		DrawPlane({0.0f, 0.0f, 0.0f}, floor_size, GRAY);
+		// Draw walls
+		for(int i=0; i<(int)map.size(); i++){
+			for(int j=0; j<(int)map[i].size(); j++){
+				// skip empty spaces
+				if(!map[i][j]){
+					continue;
+				}
+				// calculate positions
+				Vector3 position = {
+					maze_scale*(0.5f+i) - floor_size.x/2.0f,
+					maze_scale/2,
+					maze_scale*(0.5f+j)- floor_size.y/2.0f,
+				};
+				// Draw calls
+				DrawCubeV(position, cube_size, BLUE);
+				DrawCubeWiresV(position, wire_size, BLACK);
+			}
+		}
+	}
+
+};
 
 int main(int argc, char const *argv[])
 {
@@ -130,6 +187,7 @@ int main(int argc, char const *argv[])
 
 	// Game variables
 	Player player = Player{};
+	Maze maze = Maze{};
 
 	// Initial setup
 	InitWindow(screenWidth, screenHeigth, "Maze Explorer");
@@ -144,16 +202,10 @@ int main(int argc, char const *argv[])
 		BeginDrawing();
 			ClearBackground(RAYWHITE); // clean screen
 			player.beginDrawing3D();
-				DrawPlane({0.0f, 0.0f, -0.09f}, {32.0f, 32.0f}, WHITE);
-				DrawGrid(16, 1);
-				DrawCube({1.0f,0.5f,7.0f}, 1, 1, 1, RED);
-				DrawCubeWires({1.0f,0.5f,7.0f}, 1, 1, 1, BLACK);
+				maze.Draw();
 			EndMode3D();
 			// DEBUG DISPLAY
 			DrawFPS(0, 0);
-			DrawRectangle(GetScreenWidth()-64, 0, 64, 64, LIGHTGRAY);
-			DrawRectangle((-2*player.position.x) + GetScreenWidth() - 32 -1, (-2*player.position.z) + 32 -1, 2, 2, BLUE);
-			DrawRectangle((-2*player.camera.target.x) + GetScreenWidth() - 32 -1, (-2*player.camera.target.z) + 32 -1, 2, 2, RED);
 		EndDrawing();
 	}
 
