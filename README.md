@@ -3,7 +3,7 @@
 ## Development stages
 
 - [ ] Minimum viable product
-	- [ ] 3D first person camera
+	- [x] 3D first person camera
 	- [x] Keyboard movement
 	- [ ] Rendering the maze from bazic shapes
 	- [ ] Player collision
