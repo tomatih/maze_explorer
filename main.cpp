@@ -118,6 +118,11 @@ private:
 		if(IsKeyDown(KEY_UP)){
 			head_rotation += GetFrameTime()*rotation_speed;
 		}
+		auto mouse_delta = GetMouseDelta();
+		SetMousePosition(GetRenderWidth()/2, GetRenderHeight()/2);
+
+		rotation -= GetFrameTime()*rotation_speed*mouse_delta.x;
+		head_rotation -= GetFrameTime()*rotation_speed*mouse_delta.y;
 		
 		// angle security
 		if(rotation > 2*PI){
@@ -211,6 +216,8 @@ int main(int argc, char const *argv[])
 	InitWindow(screenWidth, screenHeigth, "Maze Explorer");
 	SetTargetFPS(60);
 
+	HideCursor();
+	SetMousePosition(GetRenderWidth()/2, GetRenderHeight()/2);
 
 	// Game loop
 	while (!WindowShouldClose()) {
