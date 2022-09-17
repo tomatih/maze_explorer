@@ -215,7 +215,13 @@ int main(int argc, char const *argv[])
 	// Initial setup
 	InitWindow(screenWidth, screenHeigth, "Maze Explorer");
 	SetTargetFPS(60);
+	// DPI awareness
+	auto DPI_settings = GetWindowScaleDPI();
+	auto scaled_y = DPI_settings.y * GetScreenHeight();
+	auto scaled_x = DPI_settings.x * GetScreenWidth();
+	SetWindowSize(scaled_x, scaled_y);
 
+	// mouse setup
 	HideCursor();
 	SetMousePosition(GetRenderWidth()/2, GetRenderHeight()/2);
 
