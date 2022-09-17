@@ -2,17 +2,18 @@
 
 ## Development stages
 
-- [ ] Minimum viable product
+- [x] Minimum viable product
 	- [x] 3D first person camera
 	- [x] Keyboard movement
 	- [x] Rendering the maze from bazic shapes
-	- [ ] Player collision
+	- [x] Player collision
 
 - [ ] Basic game elements
 	- [ ] Adding a main menu
 	- [ ] Adding a win screen
 	- [ ] Adding the ability to pause the game
 	- [ ] Adding a controls tutorial
+	- [ ] More realistic collisions
 
 - [ ] Spit and polish
 	- [ ] Proper C++ documentation
