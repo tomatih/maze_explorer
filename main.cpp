@@ -5,7 +5,13 @@
 #include <math.h>
 #include <vector>
 
-struct Maze{
+class GameObject{
+public:
+	virtual void Draw() = 0;
+	virtual void Update() = 0;
+};
+
+class Maze: public GameObject{
 private:
 	// caches
 	Vector2 floor_size;
@@ -60,9 +66,11 @@ public:
 		}
 	}
 
+	void Update(){} // unvirtalising
+
 };
 
-struct Player{
+class Player: public GameObject{
 public:
 	Vector3 position; // player position
 	Camera camera;
@@ -166,6 +174,8 @@ private:
 		position = last_position;
 	}
 
+	void Draw(){} // unvirtualising
+
 public:
 	Player(){
 		// basic init
@@ -192,7 +202,7 @@ public:
 		BeginMode3D(camera);
 	}
 
-	void update(){
+	void Update(){
 		update_orientation();
 		update_position();
 		check_collisions();
@@ -208,9 +218,12 @@ int main(int argc, char const *argv[])
 	const int screenHeigth = 450;
 
 	// Game variables
+	std::vector<GameObject*> game_objects;
 	Player player = Player{};
+	game_objects.push_back(&player);
 	Maze maze = Maze{};
 	player.maze = &maze;
+	game_objects.push_back(&maze);
 
 	// Initial setup
 	InitWindow(screenWidth, screenHeigth, "Maze Explorer");
@@ -228,12 +241,16 @@ int main(int argc, char const *argv[])
 	// Game loop
 	while (!WindowShouldClose()) {
 		// Update Stage
-		player.update();
+		for(auto object : game_objects){
+			object->Update();
+		}
 		// Drawing stage
 		BeginDrawing();
 			ClearBackground(RAYWHITE); // clean screen
 			player.beginDrawing3D();
-				maze.Draw();
+				for(auto object : game_objects){
+					object->Draw();
+				}
 			EndMode3D();
 			// DEBUG DISPLAY
 			DrawFPS(0, 0);
