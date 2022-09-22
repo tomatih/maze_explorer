@@ -7,8 +7,41 @@
 
 class GameObject{
 public:
-	virtual void Draw() = 0;
+	virtual void Draw2D() = 0;
+	virtual void Draw3D() = 0;
 	virtual void Update() = 0;
+};
+
+class Screen{
+private:
+	Camera* camera3D;
+	std::vector<GameObject*> game_objects;
+public:
+	virtual void on_enter() = 0;
+	virtual void on_leave() = 0;
+	void run(){
+		// update
+		for(auto obj : game_objects){
+			obj -> Update();
+		}
+
+		// draw
+		BeginDrawing();
+		ClearBackground(RAYWHITE);
+		// 3D stage
+		if(camera3D != nullptr){
+			BeginMode3D(*camera3D);
+			for(auto obj: game_objects){
+				obj -> Draw2D();
+			}
+			EndMode3D();
+		}
+		// 2D stage
+		for(auto obj: game_objects){
+			obj -> Draw2D();
+		}
+		EndDrawing();
+	};
 };
 
 class Maze: public GameObject{
@@ -17,6 +50,10 @@ private:
 	Vector2 floor_size;
 	Vector3 cube_size;
 	Vector3 wire_size;
+
+	// unvirtualising
+	void Draw2D(){};
+	void Update(){};
 
 public:
 	float maze_scale;
@@ -43,7 +80,7 @@ public:
 
 	};
 
-	void Draw(){
+	void Draw3D(){
 		// Draw floor
 		DrawPlane({0.0f, 0.0f, 0.0f}, floor_size, GRAY);
 		// Draw walls
@@ -65,8 +102,6 @@ public:
 			}
 		}
 	}
-
-	void Update(){} // unvirtalising
 
 };
 
@@ -174,7 +209,9 @@ private:
 		position = last_position;
 	}
 
-	void Draw(){} // unvirtualising
+	// unvirtualising
+	void Draw2D(){}; 
+	void Draw3D(){}; 
 
 public:
 	Player(){
@@ -247,9 +284,12 @@ int main(int argc, char const *argv[])
 		// Drawing stage
 		BeginDrawing();
 			ClearBackground(RAYWHITE); // clean screen
+			for(auto object : game_objects){
+				object->Draw2D();
+			}
 			player.beginDrawing3D();
 				for(auto object : game_objects){
-					object->Draw();
+					object->Draw3D();
 				}
 			EndMode3D();
 			// DEBUG DISPLAY
