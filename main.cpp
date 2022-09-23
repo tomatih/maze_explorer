@@ -13,10 +13,10 @@ public:
 };
 
 class Screen{
-private:
+public:
 	Camera* camera3D;
 	std::vector<GameObject*> game_objects;
-public:
+
 	virtual void on_enter() = 0;
 	virtual void on_leave() = 0;
 	void run(){
@@ -24,7 +24,6 @@ public:
 		for(auto obj : game_objects){
 			obj -> Update();
 		}
-
 		// draw
 		BeginDrawing();
 		ClearBackground(RAYWHITE);
@@ -32,7 +31,7 @@ public:
 		if(camera3D != nullptr){
 			BeginMode3D(*camera3D);
 			for(auto obj: game_objects){
-				obj -> Draw2D();
+				obj -> Draw3D();
 			}
 			EndMode3D();
 		}
@@ -234,11 +233,6 @@ public:
 		SetCameraMode(camera, CAMERA_CUSTOM);
 	}
 
-	// camera draw API forward
-	void beginDrawing3D(){
-		BeginMode3D(camera);
-	}
-
 	void Update(){
 		update_orientation();
 		update_position();
@@ -247,20 +241,40 @@ public:
 	}
 };
 
+class GameScreen: public Screen{
+private:
+	Player player;
+	Maze maze;
+public:
+	void on_enter() override{
+		// initialise game objects
+		player = Player();
+		game_objects.push_back(&player);
+		camera3D = &player.camera;
+
+		maze = Maze();
+		player.maze = &maze;
+		game_objects.push_back(&maze);
+
+		// initialise mouse
+		HideCursor();
+		SetMousePosition(GetRenderWidth()/2, GetRenderHeight()/2);
+	}
+
+	void on_leave() override{
+		// free mouse
+		ShowCursor();
+	}
+};
+
 int main(int argc, char const *argv[])
 {
-
 	// screen constants
 	const int screenWidth = 800;
 	const int screenHeigth = 450;
 
 	// Game variables
-	std::vector<GameObject*> game_objects;
-	Player player = Player{};
-	game_objects.push_back(&player);
-	Maze maze = Maze{};
-	player.maze = &maze;
-	game_objects.push_back(&maze);
+	GameScreen game_screen = GameScreen();
 
 	// Initial setup
 	InitWindow(screenWidth, screenHeigth, "Maze Explorer");
@@ -271,31 +285,14 @@ int main(int argc, char const *argv[])
 	auto scaled_x = DPI_settings.x * GetScreenWidth();
 	SetWindowSize(scaled_x, scaled_y);
 
-	// mouse setup
-	HideCursor();
-	SetMousePosition(GetRenderWidth()/2, GetRenderHeight()/2);
+	game_screen.on_enter();
 
 	// Game loop
 	while (!WindowShouldClose()) {
-		// Update Stage
-		for(auto object : game_objects){
-			object->Update();
-		}
-		// Drawing stage
-		BeginDrawing();
-			ClearBackground(RAYWHITE); // clean screen
-			for(auto object : game_objects){
-				object->Draw2D();
-			}
-			player.beginDrawing3D();
-				for(auto object : game_objects){
-					object->Draw3D();
-				}
-			EndMode3D();
-			// DEBUG DISPLAY
-			DrawFPS(0, 0);
-		EndDrawing();
+		game_screen.run();
 	}
+
+	game_screen.on_leave();
 
 	// Cleanup
 	CloseWindow();
