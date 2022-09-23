@@ -3,7 +3,10 @@
 #include <raymath.h>
 #include <iostream>
 #include <math.h>
+#include <stdexcept>
+#include <string>
 #include <vector>
+#include <map>
 
 class GameObject{
 public:
@@ -41,6 +44,32 @@ public:
 		}
 		EndDrawing();
 	};
+};
+
+class ScreenManager{
+private:
+	std::map<std::string, Screen*> screens;
+
+public:
+	Screen* current_screen;
+
+	void add_screen(std::string name, Screen* screen){
+		screens[name] = screen;
+	}
+
+	void go_to_screen(std::string screen_name){
+		// ensure new screen exist
+		if(screens.find(screen_name)==screens.end()){
+			throw std::runtime_error("Condn't find screen named"+screen_name);
+		}
+		// unload current screen
+		if(current_screen!=nullptr){
+			current_screen->on_leave();
+		}
+		current_screen = screens[screen_name];
+		current_screen->on_enter();
+	}
+
 };
 
 class Maze: public GameObject{
@@ -276,6 +305,9 @@ int main(int argc, char const *argv[])
 	// Game variables
 	GameScreen game_screen = GameScreen();
 
+	ScreenManager screen_manager= ScreenManager();
+	screen_manager.add_screen("Game", &game_screen);
+
 	// Initial setup
 	InitWindow(screenWidth, screenHeigth, "Maze Explorer");
 	SetTargetFPS(60);
@@ -285,16 +317,14 @@ int main(int argc, char const *argv[])
 	auto scaled_x = DPI_settings.x * GetScreenWidth();
 	SetWindowSize(scaled_x, scaled_y);
 
-	game_screen.on_enter();
-
+	screen_manager.go_to_screen("Game");
 	// Game loop
 	while (!WindowShouldClose()) {
-		game_screen.run();
+		screen_manager.current_screen->run();
 	}
 
-	game_screen.on_leave();
-
 	// Cleanup
+	screen_manager.current_screen->on_leave();
 	CloseWindow();
 
 	return 0;
