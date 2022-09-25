@@ -8,9 +8,7 @@
 #include <vector>
 #include <map>
 
-#include <Screen.h>
-#include <Maze.h>
-#include <Player.h>
+#include <GameScreen.h>
 
 class ScreenManager{
 private:
@@ -36,33 +34,6 @@ public:
 		current_screen->on_enter();
 	}
 
-};
-
-
-class GameScreen: public Screen{
-private:
-	Player player;
-	Maze maze;
-public:
-	void on_enter() override{
-		// initialise game objects
-		player = Player();
-		game_objects.push_back(&player);
-		camera3D = &player.camera;
-
-		maze = Maze();
-		player.maze = &maze;
-		game_objects.push_back(&maze);
-
-		// initialise mouse
-		HideCursor();
-		SetMousePosition(GetRenderWidth()/2, GetRenderHeight()/2);
-	}
-
-	void on_leave() override{
-		// free mouse
-		ShowCursor();
-	}
 };
 
 int main(int argc, char const *argv[])
