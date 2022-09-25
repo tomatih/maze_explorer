@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 
-project(Maze_Explorer VERSION 0.1)
+project(Maze_Explorer 
+		VERSION 0.1
+		DESCRIPTION "A simple maze explorer game"
+		LANGUAGES CXX
+		)
 
 # specify C++ standard
 set(CMAKE_CXX_STANDARD 20)

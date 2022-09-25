@@ -1,10 +1,11 @@
-*.out
-compile_commands.json
+# clangd
 .cache
 
-#Cmake
+# Cmake
 CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake
+compile_commands.json
 Makefile
 Maze_Explorer
+build/
