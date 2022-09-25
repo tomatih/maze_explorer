@@ -12,6 +12,7 @@ private:
 	Vector2 floor_size;
 	Vector3 cube_size;
 	Vector3 wire_size;
+	// Devirtualizing
 	void Draw2D() override;
 	void Update() override;
 public:
