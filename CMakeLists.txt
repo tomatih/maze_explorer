@@ -14,7 +14,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # add executable
-add_executable(Maze_Explorer main.cpp)
+add_executable(Maze_Explorer 
+				main.cpp
+				src/Screen.cpp
+				src/Maze.cpp
+			)
 
 # link raylib
 target_link_libraries(Maze_Explorer raylib)
+target_include_directories(Maze_Explorer PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)

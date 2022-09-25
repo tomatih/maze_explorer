@@ -8,43 +8,8 @@
 #include <vector>
 #include <map>
 
-class GameObject{
-public:
-	virtual void Draw2D() = 0;
-	virtual void Draw3D() = 0;
-	virtual void Update() = 0;
-};
-
-class Screen{
-public:
-	Camera* camera3D;
-	std::vector<GameObject*> game_objects;
-
-	virtual void on_enter() = 0;
-	virtual void on_leave() = 0;
-	void run(){
-		// update
-		for(auto obj : game_objects){
-			obj -> Update();
-		}
-		// draw
-		BeginDrawing();
-		ClearBackground(RAYWHITE);
-		// 3D stage
-		if(camera3D != nullptr){
-			BeginMode3D(*camera3D);
-			for(auto obj: game_objects){
-				obj -> Draw3D();
-			}
-			EndMode3D();
-		}
-		// 2D stage
-		for(auto obj: game_objects){
-			obj -> Draw2D();
-		}
-		EndDrawing();
-	};
-};
+#include <Screen.h>
+#include <Maze.h>
 
 class ScreenManager{
 private:
@@ -68,67 +33,6 @@ public:
 		}
 		current_screen = screens[screen_name];
 		current_screen->on_enter();
-	}
-
-};
-
-class Maze: public GameObject{
-private:
-	// caches
-	Vector2 floor_size;
-	Vector3 cube_size;
-	Vector3 wire_size;
-
-	// unvirtualising
-	void Draw2D(){};
-	void Update(){};
-
-public:
-	float maze_scale;
-	std::vector<std::vector<bool>> map;
-
-	Maze(){
-		maze_scale = 5;
-		map = {
-			{1, 1, 1, 1, 0, 1, 1, 1, 1},
-			{1, 1, 1, 1, 0, 1, 1, 1, 1},
-			{1, 1, 1, 0, 0, 1, 0, 0, 1},
-			{1, 0, 0, 0, 1, 1, 0, 1, 1},
-			{1, 0, 1, 0, 0, 0, 0, 0, 1},
-			{1, 1, 0, 0, 1, 1, 1, 0, 1},
-			{1, 1, 0, 1, 1, 0, 0, 0, 1},
-			{1, 0, 0, 1, 0, 0, 1, 1, 1},
-			{1, 1, 1, 1, 1, 1, 1, 1, 1}
-		};
-		// cache
-		floor_size = {(float)map.size(), (float)map[0].size()};
-		floor_size = Vector2Scale(floor_size, maze_scale);
-		cube_size = Vector3Scale({1.0f, 1.0f, 1.0f}, maze_scale-0.01); // ofset so wires visible
-		wire_size = Vector3Scale({1.0f, 1.0f, 1.0f}, maze_scale);
-
-	};
-
-	void Draw3D(){
-		// Draw floor
-		DrawPlane({0.0f, 0.0f, 0.0f}, floor_size, GRAY);
-		// Draw walls
-		for(int i=0; i<(int)map.size(); i++){
-			for(int j=0; j<(int)map[i].size(); j++){
-				// skip empty spaces
-				if(!map[i][j]){
-					continue;
-				}
-				// calculate positions
-				Vector3 position = {
-					maze_scale*(0.5f+i) - floor_size.x/2.0f,
-					maze_scale/2,
-					maze_scale*(0.5f+j)- floor_size.y/2.0f,
-				};
-				// Draw calls
-				DrawCubeV(position, cube_size, BLUE);
-				DrawCubeWiresV(position, wire_size, BLACK);
-			}
-		}
 	}
 
 };
