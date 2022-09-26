@@ -1,12 +1,5 @@
-#include <ostream>
 #include <raylib.h>
-#include <raymath.h>
 #include <iostream>
-#include <math.h>
-#include <stdexcept>
-#include <string>
-#include <vector>
-#include <map>
 
 #include <GameScreen.h>
 #include <ScreenManager.h>

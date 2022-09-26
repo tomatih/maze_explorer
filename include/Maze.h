@@ -18,7 +18,9 @@ private:
 public:
 	float maze_scale;
 	std::vector<std::vector<bool>> map;
+
 	Maze();
+
 	void Draw3D() override;
 };
 

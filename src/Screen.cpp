@@ -21,4 +21,4 @@ void Screen::run(){
 		obj -> Draw2D();
 	}
 	EndDrawing();
-};
+}

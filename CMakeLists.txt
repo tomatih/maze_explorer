@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.24 FATAL_ERROR)
 
 project(Maze_Explorer 
 		VERSION 0.1
@@ -25,4 +25,5 @@ add_executable(Maze_Explorer
 
 # link raylib
 target_link_libraries(Maze_Explorer raylib)
+# link custom headers
 target_include_directories(Maze_Explorer PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)

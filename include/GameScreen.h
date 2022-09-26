@@ -1,6 +1,6 @@
+#include <Screen.h>
 #include <Player.h>
 #include <Maze.h>
-#include <Screen.h>
 
 #ifndef _GAMESCREENH_
 #define _GAMESCREENH_

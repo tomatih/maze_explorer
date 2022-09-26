@@ -1,5 +1,7 @@
 #include <Player.h>
 
+#include <raymath.h>
+
 void Player::update_position(){
 	// init travel vector
 	Vector3 travel_distance = {0.0f, 0.0f, 0.0f};
@@ -78,8 +80,8 @@ void Player::update_camera(){
 void Player::check_collisions(){
 	// calculate grid position
 	Vector2 grid_pos = {
-		round(position.x / maze->maze_scale) + maze->map.size()/2,
-		round(position.z / maze->maze_scale) + maze->map[0].size()/2
+		round(position.x / maze->maze_scale) + maze->map.size()/2.0f,
+		round(position.z / maze->maze_scale) + maze->map[0].size()/2.0f
 	};
 	// check occupancy
 	if(!maze->map[grid_pos.x][grid_pos.y]){
@@ -89,8 +91,8 @@ void Player::check_collisions(){
 	position = last_position;
 }
 
+// Devirtualising
 void Player::Draw2D(){}
-
 void Player::Draw3D(){}
 
 Player::Player(){
@@ -118,4 +120,4 @@ void Player::Update(){
 	update_position();
 	check_collisions();
 	update_camera();
-} 
+}
