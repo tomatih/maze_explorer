@@ -19,6 +19,8 @@ add_executable(Maze_Explorer
 				src/Screen.cpp
 				src/Maze.cpp
 				src/Player.cpp
+				src/GameScreen.cpp
+				src/ScreenManager.cpp
 			)
 
 # link raylib
