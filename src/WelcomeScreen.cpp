@@ -12,5 +12,4 @@ void WelcomeScreen::on_enter(){
 }
 
 void WelcomeScreen::on_leave(){
-	std::cout<<"Welcome leaft"<<std::endl;
 }

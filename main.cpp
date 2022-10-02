@@ -16,13 +16,8 @@ int main(int argc, char const *argv[])
 	WelcomeScreen welcome_screen = WelcomeScreen();
 
 	ScreenManager screen_manager= ScreenManager();
-	std::cout<<"Screen manager at adress: "<<&screen_manager<<std::endl;
-	std::cout<<"Addr before adding: "<<game_screen.manager<<std::endl;
 	screen_manager.add_screen("Game", &game_screen);
-	std::cout<<"Addr after  adding: "<<game_screen.manager<<std::endl;
-	std::cout<<"Addr before adding: "<<welcome_screen.manager<<std::endl;
 	screen_manager.add_screen("Welcome", &welcome_screen);
-	std::cout<<"Addr before adding: "<<welcome_screen.manager<<std::endl;
 
 	// Initial setup
 	InitWindow(screenWidth, screenHeigth, "Maze Explorer");
