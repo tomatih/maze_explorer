@@ -1,3 +1,19 @@
-*.out
-compile_commands.json
+# clangd
 .cache
+
+# Cmake template
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+Makefile
+CMakeLists.txt.user
+CMakeScripts
+Testing
+install_manifest.txt
+CTestTestfile.cmake
+_deps
+
+# my cmake setup additions
+build/
+Maze_Explorer
