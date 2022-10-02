@@ -13,6 +13,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 # for clang
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# for gdb
+set(CMAKE_BUILD_TYPE Debug)
+
 # add executable
 add_executable(Maze_Explorer 
 				main.cpp
