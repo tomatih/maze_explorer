@@ -17,3 +17,7 @@ _deps
 # my cmake setup additions
 build/
 Maze_Explorer
+
+# clion
+.idea
+cmake-build-debug/
