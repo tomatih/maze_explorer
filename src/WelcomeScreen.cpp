@@ -1,4 +1,5 @@
 #include <WelcomeScreen.h>
+#include <iostream>
 
 WelcomeScreen::WelcomeScreen(){
 	welcome_text = WelcomeText();
@@ -12,5 +13,5 @@ void WelcomeScreen::on_enter(){
 }
 
 void WelcomeScreen::on_leave(){
-
+	std::cout<<"Welcome leaft"<<std::endl;
 }

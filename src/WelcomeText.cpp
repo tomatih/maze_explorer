@@ -13,6 +13,11 @@ void WelcomeText::Draw2D(){
 void WelcomeText::Update(){
 	auto title_width = MeasureText(title.c_str(), size);
 	position = {(GetRenderWidth()-title_width)/2.0f, (GetRenderHeight()-size)/2.0f};
+
+	if(IsKeyPressed(KEY_ENTER)){
+		manager->go_to_screen("Game");
+	}
+
 }
 
 void WelcomeText::Draw3D(){};
