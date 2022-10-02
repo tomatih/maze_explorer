@@ -3,14 +3,16 @@
 
 #include <GameObject.h>
 
+class ScreenManager;
+
 #ifndef _SCREENH_
 #define _SCREENH_
-
 
 class Screen{
 public:
 	Camera* camera3D;
 	std::vector<GameObject*> game_objects;
+	ScreenManager* manager;
 
 	virtual void on_enter() = 0;
 	virtual void on_leave() = 0;
