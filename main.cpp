@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include <GameScreen.h>
+#include <WelcomeScreen.h>
 #include <ScreenManager.h>
 
 int main(int argc, char const *argv[])
@@ -12,9 +13,11 @@ int main(int argc, char const *argv[])
 
 	// Game variables
 	GameScreen game_screen = GameScreen();
+	WelcomeScreen welcome_screen = WelcomeScreen();
 
 	ScreenManager screen_manager= ScreenManager();
 	screen_manager.add_screen("Game", &game_screen);
+	screen_manager.add_screen("Welcome", &welcome_screen);
 
 	// Initial setup
 	InitWindow(screenWidth, screenHeigth, "Maze Explorer");
@@ -25,7 +28,7 @@ int main(int argc, char const *argv[])
 	auto scaled_x = DPI_settings.x * GetScreenWidth();
 	SetWindowSize(scaled_x, scaled_y);
 
-	screen_manager.go_to_screen("Game");
+	screen_manager.go_to_screen("Welcome");
 	// Game loop
 	while (!WindowShouldClose()) {
 		screen_manager.current_screen->run();
