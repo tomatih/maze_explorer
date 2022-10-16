@@ -14,6 +14,8 @@ private:
 	void Update() override;
 	void Draw3D() override;
 public:
+    TextObject();
+    TextObject(std::string text);
 	void updateText(std::string new_text);
 	void Draw2D() override;
 };

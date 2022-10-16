@@ -13,3 +13,17 @@ void TextObject::updateText(std::string new_text) {
 void TextObject::Update() {}
 
 void TextObject::Draw3D() {}
+
+void TextObject::Draw2D() {
+    DrawText(text.c_str(), position.x, position.y, size, BLACK);
+}
+
+TextObject::TextObject(std::string text) {
+    size = 10;
+    updateText(text);
+}
+
+TextObject::TextObject() {
+    size=10;
+    updateText("");
+}
