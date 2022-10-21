@@ -20,6 +20,11 @@ void TextObject::Draw2D() {
     DrawText(text.c_str(), (int)position.x, (int)position.y, size, BLACK);
 }
 
+TextObject::TextObject(std::string text, int size) {
+    this->size = size;
+    updateText(text);
+}
+
 TextObject::TextObject(std::string text) {
     size = 10;
     updateText(text);

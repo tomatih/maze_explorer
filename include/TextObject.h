@@ -16,6 +16,7 @@ private:
 public:
     TextObject();
     TextObject(std::string text);
+    TextObject(std::string text, int size);
 	void updateText(std::string new_text);
 	void Draw2D() override;
 };
