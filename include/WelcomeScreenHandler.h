@@ -6,19 +6,15 @@
 #ifndef _WELCOMETEXT_
 #define _WELCOMETEXT_
 
-class WelcomeText: public GameObject{
+class WelcomeScreenHandler: public GameObject{
 private:
-	std::string title;
-	int size;
-	Vector2 position;
-
 	void Draw3D() override;
+    void Draw2D() override;
 public:
 	ScreenManager* manager;
 	
-	WelcomeText();
+	WelcomeScreenHandler();
 
-	void Draw2D() override;
 	void Update() override;
 };
 

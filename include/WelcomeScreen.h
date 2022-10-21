@@ -1,12 +1,14 @@
 #include <Screen.h>
-#include <WelcomeText.h>
+#include <WelcomeScreenHandler.h>
+#include <TextObject.h>
 
 #ifndef _WELCOMESCREENH_
 #define _WELCOMESCREENH_
 
 class WelcomeScreen: public Screen{
 private:
-	WelcomeText welcome_text;
+	WelcomeScreenHandler welcome_text;
+    TextObject title_text;
 public:
 	WelcomeScreen();
 	void on_enter() override;

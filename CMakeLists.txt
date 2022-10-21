@@ -25,7 +25,7 @@ add_executable(Maze_Explorer
 				src/GameScreen.cpp
 				src/ScreenManager.cpp
 				src/WelcomeScreen.cpp
-				src/WelcomeText.cpp
+        src/WelcomeScreenHandler.cpp
         src/TextObject.cpp)
 
 # link raylib
