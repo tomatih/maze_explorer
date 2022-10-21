@@ -6,8 +6,10 @@
 void TextObject::updateText(std::string new_text) {
     auto width = MeasureText(new_text.c_str(),size);
     position = {
-            ()
+            (GetRenderWidth()-width)/2.0f,
+            (GetRenderHeight()-size)/2.0f
     };
+    text = new_text;
 }
 
 void TextObject::Update() {}
@@ -15,7 +17,7 @@ void TextObject::Update() {}
 void TextObject::Draw3D() {}
 
 void TextObject::Draw2D() {
-    DrawText(text.c_str(), position.x, position.y, size, BLACK);
+    DrawText(text.c_str(), (int)position.x, (int)position.y, size, BLACK);
 }
 
 TextObject::TextObject(std::string text) {
