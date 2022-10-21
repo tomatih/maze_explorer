@@ -3,8 +3,8 @@
 #include <string>
 #include <ScreenManager.h>
 
-#ifndef _WELCOMETEXT_
-#define _WELCOMETEXT_
+#ifndef _WELCOMESCREENHANDLER_
+#define _WELCOMESCREENHANDLER_
 
 class WelcomeScreenHandler: public GameObject{
 private:
