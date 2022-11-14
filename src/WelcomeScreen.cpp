@@ -10,7 +10,6 @@ WelcomeScreen::WelcomeScreen(){
 }
 
 void WelcomeScreen::on_enter(){
-	welcome_text.manager = manager;
 }
 
 void WelcomeScreen::on_leave(){

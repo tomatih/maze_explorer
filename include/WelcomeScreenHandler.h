@@ -11,10 +11,6 @@ private:
 	void Draw3D() override;
     void Draw2D() override;
 public:
-	ScreenManager* manager;
-	
-	WelcomeScreenHandler();
-
 	void Update() override;
 };
 

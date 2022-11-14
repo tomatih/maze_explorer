@@ -4,7 +4,6 @@
 #include <stdexcept>
 
 void ScreenManager::add_screen(std::string name, Screen *screen){
-	screen->manager = this;
 	screens[name] = screen;
 }
 
