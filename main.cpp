@@ -24,7 +24,7 @@ int main(int argc, char const *argv[])
 	GameScreen game_screen = GameScreen();
 	WelcomeScreen welcome_screen = WelcomeScreen();
 
-	ScreenManager screen_manager= ScreenManager();
+	ScreenManager& screen_manager= ScreenManager::getInstance();
 	screen_manager.add_screen("Game", &game_screen);
 	screen_manager.add_screen("Welcome", &welcome_screen);
 

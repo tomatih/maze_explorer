@@ -9,8 +9,16 @@
 class ScreenManager{
 private:
 	std::map<std::string, Screen*> screens;
+    ScreenManager() {};
 
 public:
+    static ScreenManager& getInstance(){
+        static ScreenManager instance;
+        return instance;
+    }
+    ScreenManager(ScreenManager const&) = delete;
+    void operator=(ScreenManager const&) = delete;
+
 	Screen* current_screen;
 
 	void add_screen(std::string name, Screen* screen);
