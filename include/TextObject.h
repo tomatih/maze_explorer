@@ -8,16 +8,16 @@
 class TextObject : public GameObject{
 private:
 	std::string text;
+    Vector2 draw_position;
     Vector2 position;
     int size;
 
 	void Update() override;
 	void Draw3D() override;
 public:
-    TextObject();
-    TextObject(std::string text);
-    TextObject(std::string text, int size);
+    TextObject(std::string text, int size, Vector2 position);
 	void updateText(std::string new_text);
+    void updatePosition(Vector2 new_position);
 	void Draw2D() override;
 };
 

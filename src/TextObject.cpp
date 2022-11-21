@@ -5,9 +5,9 @@
 
 void TextObject::updateText(std::string new_text) {
     auto width = MeasureText(new_text.c_str(),size);
-    position = {
-            (GetRenderWidth()-width)/2.0f,
-            (GetRenderHeight()-size)/2.0f
+    draw_position = {
+            position.x - (float)width/2.0f,
+            position.y - (float)size/2.0f
     };
     text = new_text;
 }
@@ -17,20 +17,22 @@ void TextObject::Update() {}
 void TextObject::Draw3D() {}
 
 void TextObject::Draw2D() {
-    DrawText(text.c_str(), (int)position.x, (int)position.y, size, BLACK);
+    DrawText(text.c_str(), (int)draw_position.x, (int)draw_position.y, size, BLACK);
 }
 
-TextObject::TextObject(std::string text, int size) {
-    this->size = size;
+TextObject::TextObject(std::string text, int size, Vector2 position) : size(size), position(position) {
     updateText(text);
 }
 
-TextObject::TextObject(std::string text) {
-    size = 10;
-    updateText(text);
+void TextObject::updatePosition(Vector2 new_position) {
+    Vector2 offset = {
+            draw_position.x - position.x,
+            draw_position.y - position.y
+    };
+    position = new_position;
+    draw_position = {
+            new_position.x + offset.x,
+            new_position.y + offset.y
+    };
 }
 
-TextObject::TextObject() {
-    size=10;
-    updateText("");
-}
