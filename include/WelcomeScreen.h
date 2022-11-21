@@ -7,8 +7,9 @@
 
 class WelcomeScreen: public Screen{
 private:
-	WelcomeScreenHandler welcome_text;
+	WelcomeScreenHandler handler;
     TextObject title_text;
+    TextObject hint_text;
 public:
 	WelcomeScreen();
 	void on_enter() override;
