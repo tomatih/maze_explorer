@@ -1,6 +1,7 @@
 #include <Player.h>
 
 #include <raymath.h>
+#include <math.h>
 
 void Player::update_position(){
 	// init travel vector
@@ -80,8 +81,8 @@ void Player::update_camera(){
 void Player::check_collisions(){
 	// calculate grid position
 	Vector2 grid_pos = {
-		round(position.x / maze->maze_scale) + maze->map.size()/2.0f,
-		round(position.z / maze->maze_scale) + maze->map[0].size()/2.0f
+		round(position.x / maze->maze_scale) + floor(maze->map.size()/2.0f),
+		round(position.z / maze->maze_scale) + floor(maze->map[0].size()/2.0f)
 	};
     std::string x_pos_s = std::to_string(grid_pos.x);
     std::string y_pos_s = std::to_string(grid_pos.y);
