@@ -2,6 +2,7 @@
 
 #include <GameObject.h>
 #include <Maze.h>
+#include "TextObject.h"
 
 #ifndef _PLAYERH_
 #define _PLAYERH_
@@ -11,6 +12,7 @@ public:
 	Vector3 position; // player position
 	Camera camera;
 	Maze* maze;
+    TextObject* pos_text;
 
 	Player();
 	

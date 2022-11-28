@@ -83,6 +83,9 @@ void Player::check_collisions(){
 		round(position.x / maze->maze_scale) + maze->map.size()/2.0f,
 		round(position.z / maze->maze_scale) + maze->map[0].size()/2.0f
 	};
+    std::string x_pos_s = std::to_string(grid_pos.x);
+    std::string y_pos_s = std::to_string(grid_pos.y);
+    pos_text->updateText(x_pos_s+";"+y_pos_s+";"+ std::to_string(maze->map.size()));
 	// check occupancy
 	if(!maze->map[grid_pos.x][grid_pos.y]){
 		return;
