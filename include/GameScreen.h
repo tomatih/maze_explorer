@@ -10,7 +10,7 @@ class GameScreen: public Screen{
 private:
 	Player player;
 	Maze maze;
-    TextObject pos_text = TextObject("-1,-1",20,{100,10});;
+    TextObject pos_text = TextObject("-1,-1",20,{0.085,0.02});;
 public:
 	void on_enter() override;
 

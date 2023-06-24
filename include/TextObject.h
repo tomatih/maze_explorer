@@ -8,8 +8,9 @@
 class TextObject : public GameObject{
 private:
 	std::string text;
-    Vector2 draw_position;
-    Vector2 position;
+    Vector2 draw_position = {0.0f, 0.0f};
+    Vector2 screen_position = {0.0f, 0.0f};
+    Vector2 normal_position = {0.0f, 0.0f};
     int size;
 
 	void Update() override;

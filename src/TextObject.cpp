@@ -6,8 +6,8 @@
 void TextObject::updateText(std::string new_text) {
     auto width = MeasureText(new_text.c_str(),size);
     draw_position = {
-            position.x - (float)width/2.0f,
-            position.y - (float)size/2.0f
+            screen_position.x - (float)width / 2.0f,
+            screen_position.y - (float)size / 2.0f
     };
     text = new_text;
 }
@@ -20,19 +20,26 @@ void TextObject::Draw2D() {
     DrawText(text.c_str(), (int)draw_position.x, (int)draw_position.y, size, BLACK);
 }
 
-TextObject::TextObject(std::string text, int size, Vector2 position) : size(size), position(position) {
+TextObject::TextObject(std::string text, int size, Vector2 position) : size(size){
+    // init values as dummies
+    updatePosition(position);
     updateText(text);
 }
 
 void TextObject::updatePosition(Vector2 new_position) {
     Vector2 offset = {
-            draw_position.x - position.x,
-            draw_position.y - position.y
+            draw_position.x - screen_position.x,
+            draw_position.y - screen_position.y
     };
-    position = new_position;
+    normal_position = new_position;
+    auto dpi = GetWindowScaleDPI();
+    screen_position = {
+            .x = (float)GetScreenWidth() * dpi.x * normal_position.x,
+            .y = (float)GetScreenHeight() * dpi.y * normal_position.y
+    };
     draw_position = {
-            new_position.x + offset.x,
-            new_position.y + offset.y
+            screen_position.x + offset.x,
+            screen_position.y + offset.y
     };
 }
 
