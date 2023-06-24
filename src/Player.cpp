@@ -116,7 +116,7 @@ Player::Player(){
 		.fovy = 60.0f,
 		.projection = CAMERA_PERSPECTIVE,
 	};
-	SetCameraMode(camera, CAMERA_CUSTOM);
+	UpdateCamera(&camera, CAMERA_CUSTOM);
 }
 
 void Player::Update(){
