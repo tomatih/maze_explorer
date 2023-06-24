@@ -4,6 +4,7 @@
 #include <GameScreen.h>
 #include <WelcomeScreen.h>
 #include <ScreenManager.h>
+#include "WinScreen.h"
 
 int main(int argc, char const *argv[])
 {
@@ -23,10 +24,12 @@ int main(int argc, char const *argv[])
 	// Game variables
 	GameScreen game_screen = GameScreen();
 	WelcomeScreen welcome_screen = WelcomeScreen();
+    WinScreen win_screen = WinScreen();
 
 	ScreenManager& screen_manager= ScreenManager::getInstance();
 	screen_manager.add_screen("Game", &game_screen);
 	screen_manager.add_screen("Welcome", &welcome_screen);
+    screen_manager.add_screen("Win", &win_screen);
 
 	screen_manager.go_to_screen("Welcome");
 	// Game loop
