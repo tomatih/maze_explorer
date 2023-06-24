@@ -1,4 +1,5 @@
 #include <Player.h>
+#include <ScreenManager.h>
 
 #include <raymath.h>
 #include <math.h>
@@ -87,6 +88,12 @@ void Player::check_collisions(){
     std::string x_pos_s = std::to_string(grid_pos.x);
     std::string y_pos_s = std::to_string(grid_pos.y);
     pos_text->updateText(x_pos_s+";"+y_pos_s+";"+ std::to_string(maze->map.size()));
+    // win check
+    if(grid_pos.x < 0 || grid_pos.y < 0){
+        ScreenManager& manager = ScreenManager::getInstance();
+        manager.go_to_screen("Win");
+        return;
+    }
 	// check occupancy
 	if(!maze->map[grid_pos.x][grid_pos.y]){
 		return;
