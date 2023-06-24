@@ -10,7 +10,7 @@
 
 - [ ] Basic game elements
 	- [x] Adding a main menu
-	- [ ] Adding a win screen
+	- [x] Adding a win screen
 	- [ ] Adding the ability to pause the game
 	- [ ] Adding a controls tutorial
 	- [ ] More realistic collisions
