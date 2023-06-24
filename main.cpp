@@ -15,6 +15,7 @@ int main(int argc, char const *argv[])
     // Initial setup
     InitWindow(screenWidth, screenHeigth, "Maze Explorer");
     SetTargetFPS(60);
+    SetExitKey(KEY_NULL);
     // DPI awareness
     auto DPI_settings = GetWindowScaleDPI();
     auto scaled_y = DPI_settings.y * GetScreenHeight();

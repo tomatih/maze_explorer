@@ -127,6 +127,9 @@ Player::Player(){
 }
 
 void Player::Update(){
+    if(paused){
+        return;
+    }
 	update_orientation();
 	update_position();
 	check_collisions();

@@ -12,13 +12,14 @@ public:
 	Vector3 position; // player position
 	Camera camera;
 	Maze* maze;
+    bool paused = false;
     TextObject* pos_text;
 
 	Player();
-	
+
 	void Update();
 private:
-	float speed; // movement speed
+    float speed; // movement speed
 	float rotation; // player world orientation
 	float head_rotation; // up/down head rotation
 	float rotation_speed; // head rotation speed
