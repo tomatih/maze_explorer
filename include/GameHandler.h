@@ -13,12 +13,13 @@ class GameHandler : public GameObject {
 private:
     bool pasued = false;
     Player* player;
+    std::vector<TextObject *> pause_text;
 
     void Draw3D() override {};
-    void Draw2D() override {};
 public:
     GameHandler(Player* player);
 
+    void Draw2D() override;
     void Update() override;
 };
 
