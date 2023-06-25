@@ -28,7 +28,7 @@ add_executable(Maze_Explorer
         		src/WelcomeScreenHandler.cpp
         		src/TextObject.cpp
 				src/WinScreen.cpp
-				src/GameHandler.cpp)
+				src/GameHandler.cpp src/TutorialPrompt.cpp include/TutorialPrompt.h)
 
 # link raylib
 target_link_libraries(Maze_Explorer raylib)

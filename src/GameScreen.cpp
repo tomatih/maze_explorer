@@ -22,6 +22,9 @@ GameScreen::GameScreen() : handler(&player) {
     game_objects.push_back(&player);
     camera3D = &player.camera;
 
+    tutorialPrompt = TutorialPrompt();
+    game_objects.push_back(&tutorialPrompt);
+
     //handler = GameHandler(&player);
     game_objects.push_back(&handler);
 
