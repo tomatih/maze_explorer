@@ -13,6 +13,7 @@
 class TutorialPrompt : public GameObject{
 private:
     Rectangle main_box;
+    Rectangle border_box;
     TextObject move_text = TextObject("W S A D - move player", 20, {0.84, 0.85});
     TextObject camera_text = TextObject("arrow keys/mouse - camera control", 20, {0.84, 0.9});
     TextObject luck_text = TextObject("Good luck!", 20, {0.84,0.95});

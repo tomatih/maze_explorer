@@ -10,15 +10,24 @@ TutorialPrompt::TutorialPrompt() {
     auto screen_height = (float)GetScreenHeight() * dpi_setting.y;
     auto width = 0.33f;
     auto height = 0.2f;
-    main_box = {
+    border_box = {
             .x = (1-width) * screen_width,
             .y = (1-height) * screen_height,
             .width = width * screen_width,
             .height = height * screen_height,
     };
+    auto border_delta = 2.5f;
+    main_box = {
+            .x = border_box.x + border_delta* dpi_setting.x,
+            .y = border_box.y + border_delta* dpi_setting.y,
+            .width = border_box.width - border_delta* dpi_setting.x *2,
+            .height = border_box.height - border_delta* dpi_setting.y * 2,
+    };
+
 }
 
 void TutorialPrompt::Draw2D() {
+    DrawRectangleRec(border_box, BLACK);
     DrawRectangleRec(main_box, SKYBLUE);
     move_text.Draw2D();
     camera_text.Draw2D();
