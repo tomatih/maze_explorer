@@ -15,6 +15,9 @@ private:
     Player* player;
     std::vector<TextObject *> pause_text;
 
+    const int max_options = 3;
+    int currently_selected = 0;
+
     void Draw3D() override {};
 public:
     GameHandler(Player* player);
