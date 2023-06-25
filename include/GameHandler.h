@@ -11,12 +11,14 @@
 
 class GameHandler : public GameObject {
 private:
-    bool pasued = false;
+    bool paused = false;
     Player* player;
-    std::vector<TextObject *> pause_text;
 
+    std::vector<TextObject *> pause_text;
     const int max_options = 3;
     int currently_selected = 0;
+
+    void pauseGame();
 
     void Draw3D() override {};
 public:

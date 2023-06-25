@@ -3,24 +3,17 @@
 //
 
 #include "GameHandler.h"
+#include "ScreenManager.h"
 #include "raylib.h"
 
 void GameHandler::Update() {
     // pausing logic
     if(IsKeyPressed(KEY_ESCAPE)){
-        pasued = !pasued;
-        player->paused = pasued;
-        if(pasued){
-            pause_text[currently_selected +1]->color = GRAY;
-            currently_selected = 0;
-            pause_text[currently_selected +1]->color = RAYWHITE;
-            ShowCursor();
-        } else{
-            HideCursor();
-        }
+        pauseGame();
     }
     // pause screen logic
-    if(pasued){
+    if(paused){
+        // choosing logic
         if(IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_DOWN)){
             pause_text[currently_selected +1]->color = GRAY;
             if(IsKeyPressed(KEY_DOWN)){
@@ -34,6 +27,24 @@ void GameHandler::Update() {
                 }
             }
             pause_text[currently_selected +1]->color = RAYWHITE;
+        }
+        // selection logic
+        if(IsKeyPressed(KEY_ENTER)){
+            ScreenManager& screenManager = ScreenManager::getInstance();
+            switch (currently_selected) {
+                case 0:
+                    pauseGame();
+                    break;
+                case 1:
+                    screenManager.go_to_screen("Welcome");
+                    break;
+                case 2:
+                    screenManager.shouldClose = true;
+                    break;
+                default:
+                    printf("INVALID OPTION\n");
+                    break;
+            }
         }
     }
 }
@@ -53,12 +64,29 @@ GameHandler::GameHandler(Player* player): player(player) {
 }
 
 void GameHandler::Draw2D() {
-    if(pasued){
+    if(paused){
         // dark filter
         DrawRectangle(0,0,GetScreenWidth(),GetScreenHeight(), ColorAlpha(BLACK,0.5));
         // menu text
         for(auto text : pause_text){
             text->Draw2D();
         }
+    }
+}
+
+void GameHandler::pauseGame() {
+    // toggle passe status
+    paused = !paused;
+    player->paused = paused;
+    if(paused){
+        // refresh selection
+        pause_text[currently_selected +1]->color = GRAY;
+        currently_selected = 0;
+        pause_text[currently_selected +1]->color = RAYWHITE;
+        // cursor logic
+        ShowCursor();
+    } else{
+        // cursor logic
+        HideCursor();
     }
 }
