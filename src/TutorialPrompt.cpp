@@ -4,7 +4,7 @@
 
 #include "TutorialPrompt.h"
 
-TutorialPrompt::TutorialPrompt() {
+TutorialPrompt::TutorialPrompt(GameHandler& handler) : handler(handler) {
     auto dpi_setting = GetWindowScaleDPI();
     auto screen_width = (float)GetScreenWidth() * dpi_setting.x;
     auto screen_height = (float)GetScreenHeight() * dpi_setting.y;
@@ -39,7 +39,9 @@ void TutorialPrompt::Draw2D() {
 
 void TutorialPrompt::Update() {
     if(active){
-        remaining_time -= GetFrameTime();
+        if(!handler.isPaused()){
+            remaining_time -= GetFrameTime();
+        }
         if(remaining_time<0){
             active = false;
         }
@@ -48,4 +50,5 @@ void TutorialPrompt::Update() {
 
 void TutorialPrompt::reset() {
     remaining_time = display_time;
+    active = true;
 }

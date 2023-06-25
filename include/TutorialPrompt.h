@@ -9,6 +9,7 @@
 #include <raylib.h>
 #include "GameObject.h"
 #include "TextObject.h"
+#include "GameHandler.h"
 
 class TutorialPrompt : public GameObject{
 private:
@@ -21,10 +22,11 @@ private:
     constexpr static const float display_time = 10;
     float remaining_time;
     bool active = true;
+    GameHandler& handler;
 
     void Draw3D() override {};
 public:
-    TutorialPrompt();
+    TutorialPrompt(GameHandler& handler);
     void reset();
 
     void Update() override;

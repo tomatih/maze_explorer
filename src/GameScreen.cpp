@@ -9,6 +9,7 @@ void GameScreen::on_enter(){
     if(handler.isPaused()){
         handler.pauseGame();
     }
+    tutorialPrompt.reset();
 }
 
 void GameScreen::on_leave(){
@@ -16,13 +17,13 @@ void GameScreen::on_leave(){
 	ShowCursor();
 }
 
-GameScreen::GameScreen() : handler(&player) {
+GameScreen::GameScreen() : handler(&player), tutorialPrompt(handler) {
     // initialise game objects
     player = Player();
     game_objects.push_back(&player);
     camera3D = &player.camera;
 
-    tutorialPrompt = TutorialPrompt();
+    //tutorialPrompt = TutorialPrompt();
     game_objects.push_back(&tutorialPrompt);
 
     //handler = GameHandler(&player);
