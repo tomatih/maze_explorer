@@ -108,14 +108,11 @@ void Player::Draw3D(){}
 
 Player::Player(){
 	// basic init
-	position = {0.0f, 0.0f,0.0f};
-	speed = 5.0f;
-	rotation = PI/2;
-	head_rotation = 0.0f;
+    initialize();
+    speed = 5.0f;
 	rotation_speed = 1.0f;
 	// camera init
 	camera_postion_offset = {0.0f,1.0f,0.0f};
-	camera_target_offset = {0.0f, 0.0f, 1.0f};
 	camera = {
 		.position = Vector3Add(position, camera_postion_offset),
 		.target = Vector3Add(Vector3Add(position, camera_postion_offset), camera_target_offset),
@@ -134,4 +131,11 @@ void Player::Update(){
 	update_position();
 	check_collisions();
 	update_camera();
+}
+
+void Player::initialize() {
+    position = {0.0f, 0.0f,0.0f};
+    rotation = PI/2;
+    head_rotation = 0.0f;
+    camera_target_offset = {0.0f, 0.0f, 1.0f};
 }

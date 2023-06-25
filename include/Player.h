@@ -17,7 +17,9 @@ public:
 
 	Player();
 
-	void Update();
+    void initialize();
+
+	void Update() override;
 private:
     float speed; // movement speed
 	float rotation; // player world orientation
@@ -37,8 +39,8 @@ private:
 	void check_collisions();
 
 	// unvirtualising
-	void Draw2D(); 
-	void Draw3D();
+	void Draw2D() override;
+	void Draw3D() override;
 };
 
 #endif

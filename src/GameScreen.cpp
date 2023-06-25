@@ -4,6 +4,11 @@ void GameScreen::on_enter(){
 	// initialise mouse
 	HideCursor();
 	SetMousePosition(GetRenderWidth()/2, GetRenderHeight()/2);
+    //reset player
+    player.initialize();
+    if(handler.isPaused()){
+        handler.pauseGame();
+    }
 }
 
 void GameScreen::on_leave(){

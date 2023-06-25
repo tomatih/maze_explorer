@@ -18,10 +18,12 @@ private:
     const int max_options = 3;
     int currently_selected = 0;
 
-    void pauseGame();
-
     void Draw3D() override {};
+
 public:
+    void pauseGame();
+    [[nodiscard]] bool isPaused() const {return paused;};
+
     GameHandler(Player* player);
 
     void Draw2D() override;
