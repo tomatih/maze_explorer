@@ -34,7 +34,8 @@ int main(int argc, char const *argv[])
 
 	screen_manager.go_to_screen("Welcome");
 	// Game loop
-	while (!WindowShouldClose()) {
+	while (!screen_manager.shouldClose) {
+        screen_manager.shouldClose = WindowShouldClose();
 		screen_manager.current_screen->run();
 	}
 

@@ -12,6 +12,8 @@ private:
     ScreenManager() {};
 
 public:
+    bool shouldClose = false;
+
     static ScreenManager& getInstance(){
         static ScreenManager instance;
         return instance;
