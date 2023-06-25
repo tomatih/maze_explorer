@@ -24,16 +24,28 @@ TutorialPrompt::TutorialPrompt() {
             .height = border_box.height - border_delta* dpi_setting.y * 2,
     };
 
+    reset();
 }
 
 void TutorialPrompt::Draw2D() {
-    DrawRectangleRec(border_box, BLACK);
-    DrawRectangleRec(main_box, SKYBLUE);
-    move_text.Draw2D();
-    camera_text.Draw2D();
-    luck_text.Draw2D();
+    if(active){
+        DrawRectangleRec(border_box, BLACK);
+        DrawRectangleRec(main_box, SKYBLUE);
+        move_text.Draw2D();
+        camera_text.Draw2D();
+        luck_text.Draw2D();
+    }
 }
 
 void TutorialPrompt::Update() {
+    if(active){
+        remaining_time -= GetFrameTime();
+        if(remaining_time<0){
+            active = false;
+        }
+    }
+}
 
+void TutorialPrompt::reset() {
+    remaining_time = display_time;
 }

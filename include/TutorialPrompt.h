@@ -18,9 +18,14 @@ private:
     TextObject camera_text = TextObject("arrow keys/mouse - camera control", 20, {0.84, 0.9});
     TextObject luck_text = TextObject("Good luck!", 20, {0.84,0.95});
 
+    constexpr static const float display_time = 10;
+    float remaining_time;
+    bool active = true;
+
     void Draw3D() override {};
 public:
     TutorialPrompt();
+    void reset();
 
     void Update() override;
     void Draw2D() override;
