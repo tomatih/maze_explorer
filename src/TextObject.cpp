@@ -17,10 +17,10 @@ void TextObject::Update() {}
 void TextObject::Draw3D() {}
 
 void TextObject::Draw2D() {
-    DrawText(text.c_str(), (int)draw_position.x, (int)draw_position.y, size, BLACK);
+    DrawText(text.c_str(), (int)draw_position.x, (int)draw_position.y, size, color);
 }
 
-TextObject::TextObject(std::string text, int size, Vector2 position) : size(size){
+TextObject::TextObject(std::string text, int size, Vector2 position, Color color) : size(size), color(color){
     // init values as dummies
     updatePosition(position);
     updateText(text);

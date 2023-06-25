@@ -14,9 +14,11 @@ private:
     int size;
 
 	void Update() override;
-	void Draw3D() override;
+    void Draw3D() override;
 public:
-    TextObject(std::string text, int size, Vector2 position);
+    Color color;
+
+    TextObject(std::string text, int size, Vector2 position, Color color = BLACK);
 	void updateText(std::string new_text);
     void updatePosition(Vector2 new_position);
 	void Draw2D() override;
